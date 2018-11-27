@@ -116,11 +116,21 @@ public protocol SwiftyCamViewControllerDelegate: class {
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat)
     
     /**
-     SwiftyCamViewControllerDelegate function called when when SwiftyCamViewController fails to confiture the session.
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController record timer is active.
+     
+     - Parameter swiftyCam: Current SwiftyCamViewController session
+     - Parameter zoom: Current timer progress
+     - Parameter maxDuration: Maximum video duration
+     */
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeRecordProgress progress: Double, maxDuration: Double)
+    
+    /**
+     SwiftyCamViewControllerDelegate function called when SwiftyCamViewController fails to confiture the session.
      
      - Parameter swiftyCam: Current SwiftyCamViewController
      */
-    
+  
     func swiftyCamDidFailToConfigure(_ swiftyCam: SwiftyCamViewController)
     
     /**
@@ -176,6 +186,10 @@ public extension SwiftyCamViewControllerDelegate {
 
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeZoomLevel zoom: CGFloat) {
+        // Optional
+    }
+    
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didChangeRecordProgress progress: Double, maxDuration: Double){
         // Optional
     }
     

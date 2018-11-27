@@ -1069,6 +1069,15 @@ extension SwiftyCamViewController : SwiftyCamButtonDelegate {
 	public func longPressDidReachMaximumDuration() {
 		stopVideoRecording()
 	}
+    
+    /// Called when the progress increase
+    public func timerRecordProgressChange(currentProgress: Double, maxDuration: Double) {
+        
+        DispatchQueue.main.async {
+            self.cameraDelegate?.swiftyCam(self, didChangeRecordProgress: currentProgress, maxDuration: maxDuration)
+        }
+    }
+    
 }
 
 // MARK: AVCaptureFileOutputRecordingDelegate

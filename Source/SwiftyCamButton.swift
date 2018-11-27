@@ -41,6 +41,9 @@ public protocol SwiftyCamButtonDelegate: class {
     /// Sets the maximum duration of the video recording
     
     func setMaxiumVideoDuration() -> Double
+    
+    /// Called the current recording progress change
+    func timerRecordProgressChange(currentProgress: Double, maxDuration: Double)
 }
 
 // MARK: Public View Declaration
@@ -112,13 +115,13 @@ open class SwiftyCamButton: UIButton {
         delegate?.longPressDidReachMaximumDuration()
     }
     
-    /// Start Maximum Duration Timer
+    /// Start 1 second timer, who update the recording progress
     
     fileprivate func startTimer() {
         if let duration = delegate?.setMaxiumVideoDuration() {
             //Check if duration is set, and greater than zero
             if duration != 0.0 && duration > 0.0 {
-                timer = Timer.scheduledTimer(timeInterval: duration, target: self, selector:  #selector(SwiftyCamButton.timerFinished), userInfo: nil, repeats: false)
+                timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector:  #selector(SwiftyCamButton.timerProgressDidChange), userInfo: nil, repeats: true)
             }
         }
     }
@@ -128,6 +131,18 @@ open class SwiftyCamButton: UIButton {
     fileprivate func invalidateTimer() {
         timer?.invalidate()
         timer = nil
+        timerProgress = 0.0
+    }
+    
+    fileprivate var timerProgress:Double = 0.0
+    // Send the current progress to the delegate
+    @objc fileprivate func timerProgressDidChange(){
+        timerProgress += 1
+        if let duration = delegate?.setMaxiumVideoDuration(), duration > timerProgress {
+            delegate?.timerRecordProgressChange(currentProgress: timerProgress, maxDuration: duration)
+        } else {
+            timerFinished()
+        }
     }
     
     // Add Tap and LongPress gesture recognizers
