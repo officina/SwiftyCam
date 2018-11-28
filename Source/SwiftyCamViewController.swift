@@ -637,7 +637,7 @@ open class SwiftyCamViewController: UIViewController {
 	}
 
     // Reset the current zoom to the default one
-    func resetZoom(){
+    public func resetZoom(){
         beginZoomScale = CGFloat(1.0)
         zoomScale = beginZoomScale
         do {
