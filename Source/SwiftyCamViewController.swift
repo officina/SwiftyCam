@@ -636,6 +636,19 @@ open class SwiftyCamViewController: UIViewController {
 		disableFlash()
 	}
 
+    // Reset the current zoom to the default one
+    func resetZoom(){
+        beginZoomScale = CGFloat(1.0)
+        zoomScale = beginZoomScale
+        do {
+            let captureDevice = AVCaptureDevice.devices().first
+            try captureDevice?.lockForConfiguration()
+            captureDevice?.videoZoomFactor = zoomScale
+            captureDevice?.unlockForConfiguration()
+        } catch {
+            print("[SwiftyCam]: Error locking configuration")
+        }
+    }
 	// MARK: Private Functions
 
 	/// Configure session, add inputs and outputs
