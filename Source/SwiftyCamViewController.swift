@@ -792,6 +792,11 @@ open class SwiftyCamViewController: UIViewController {
 				if connection.isVideoStabilizationSupported {
 					connection.preferredVideoStabilizationMode = .auto
 				}
+                if #available(iOS 11.0, *) {
+                    if (movieFileOutput.availableVideoCodecTypes.contains(.h264)){
+                        movieFileOutput.setOutputSettings([AVVideoCodecKey: AVVideoCodecType.h264], for: connection)
+                    }
+                }
 			}
 			self.movieFileOutput = movieFileOutput
 		}
