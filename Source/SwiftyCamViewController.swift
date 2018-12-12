@@ -111,7 +111,7 @@ open class SwiftyCamViewController: UIViewController {
 
 	/// Video capture quality
 
-	public var videoQuality : VideoQuality       = .high
+	public var videoQuality : VideoQuality       = .resolution640x480
 
 	/// Sets whether flash is enabled for photo and video capture
     @available(*, deprecated, message: "use flashMode .on or .off") //use flashMode
@@ -691,12 +691,12 @@ open class SwiftyCamViewController: UIViewController {
 
 	fileprivate func configureVideoPreset() {
 		if currentCamera == .front {
-			session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: .high))
+			session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: .resolution640x480))
 		} else {
 			if session.canSetSessionPreset(AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: videoQuality))) {
 				session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: videoQuality))
 			} else {
-				session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: .high))
+				session.sessionPreset = AVCaptureSession.Preset(rawValue: videoInputPresetFromVideoQuality(quality: .resolution640x480))
 			}
 		}
 	}
