@@ -61,6 +61,10 @@ open class SwiftyCamButton: UIButton {
     
     public var buttonEnabled = true
     
+    /// Sets whether video Recording is possible
+    
+    public var recordingEnabled:Bool = false
+    
     /// Maximum duration variable
     
     fileprivate var timer : Timer?
@@ -149,8 +153,12 @@ open class SwiftyCamButton: UIButton {
     
     fileprivate func createGestureRecognizers() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SwiftyCamButton.Tap))
-        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwiftyCamButton.LongPress))
         self.addGestureRecognizer(tapGesture)
+        
+        guard recordingEnabled == true else {
+            return
+        }
+        let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(SwiftyCamButton.LongPress))
         self.addGestureRecognizer(longGesture)
     }
 }
