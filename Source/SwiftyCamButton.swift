@@ -63,7 +63,16 @@ open class SwiftyCamButton: UIButton {
     
     /// Sets whether video Recording is possible
     
-    public var recordingEnabled:Bool = false
+    public var recordingEnabled:Bool = false {
+        didSet {
+            if recordingEnabled {
+                self.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(SwiftyCamButton.LongPress)))
+            } else {
+                self.removeGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(SwiftyCamButton.LongPress)))
+            }
+            
+        }
+    }
     
     /// Maximum duration variable
     
