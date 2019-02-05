@@ -334,36 +334,10 @@ open class SwiftyCamViewController: UIViewController {
         super.viewDidLayoutSubviews()
 
         if let connection =  self.previewLayer?.videoPreviewLayer.connection  {
-
-            let currentDevice: UIDevice = UIDevice.current
-
-            let orientation: UIDeviceOrientation = currentDevice.orientation
-
             let previewLayerConnection : AVCaptureConnection = connection
 
             if previewLayerConnection.isVideoOrientationSupported {
-
-                switch (orientation) {
-                case .portrait: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-
-                    break
-
-                case .landscapeRight: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeLeft)
-
-                    break
-
-                case .landscapeLeft: updatePreviewLayer(layer: previewLayerConnection, orientation: .landscapeRight)
-
-                    break
-
-                case .portraitUpsideDown: updatePreviewLayer(layer: previewLayerConnection, orientation: .portraitUpsideDown)
-
-                    break
-
-                default: updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
-
-                    break
-                }
+                updatePreviewLayer(layer: previewLayerConnection, orientation: .portrait)
             }
         }
     }
@@ -524,7 +498,26 @@ open class SwiftyCamViewController: UIViewController {
 		}
 
         //Must be fetched before on main thread
-        let previewOrientation = previewLayer.videoPreviewLayer.connection!.videoOrientation
+        var previewOrientation:AVCaptureVideoOrientation = .portrait
+        switch (UIDevice.current.orientation) {
+        case .portrait:
+            previewOrientation = .portrait
+            break
+        case .landscapeRight:
+            previewOrientation = .landscapeRight
+            break
+        case .landscapeLeft:
+            previewOrientation = .landscapeLeft
+            break
+        case .portraitUpsideDown:
+            previewOrientation = .portraitUpsideDown
+            break
+        default:
+            previewOrientation = .portrait
+            break
+        }
+        //let previewOrientation = previewLayer.videoPreviewLayer.connection!.videoOrientation
+        
 
 		sessionQueue.async { [unowned self] in
 			if !movieFileOutput.isRecording {
